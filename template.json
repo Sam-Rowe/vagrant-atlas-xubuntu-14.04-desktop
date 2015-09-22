@@ -1,93 +1,93 @@
 {
-  "push": {
-      "name": "",
-      "vcs": true
+    "push": {
+        "name": "",
+        "vcs": true
     },
     "variables": {
         "atlas_username": "{{env `ATLAS_USERNAME`}}",
         "atlas_name": "{{env `ATLAS_NAME`}}"
     },
     "provisioners": [
-    {
-        "type": "shell",
-        "scripts": [
-          "scripts/base.sh",
-          "scripts/virtualbox.sh",
-          "scripts/vagrant.sh",
-          "scripts/dep.sh",
-          "scripts/cleanup.sh",
-          "scripts/zerodisk.sh",
-        ],
-        "override": {
-            "virtualbox-iso": {
-                "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/base.sh",
+                "scripts/virtualbox.sh",
+                "scripts/vagrant.sh",
+                "scripts/dep.sh",
+                "scripts/cleanup.sh",
+                "scripts/zerodisk.sh"
+            ],
+            "override": {
+                "virtualbox-iso": {
+                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+                }
             }
         }
-    }
-],
-{
-  "builders": [
-    {
-      "type": "virtualbox-iso",
-      "boot_command": [
-        "<esc><enter><esc><enter><wait>",
-        "/casper/vmlinuz.efi noprompt <wait>",
-        "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/xubuntu-14043-desktop-preseed.cfg <wait>",
-        "hostname={{ .Name }} <wait>",
-        "automatic-ubiquity <wait>",
-		    "boot=casper initrd=/casper/initrd.lz -- <enter>"
-      ],
-      "headless": true,
-      "boot_wait": "10s",
-      "disk_size": 20480,
-      "guest_additions_mode": "upload",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_additions_url": "http://download.virtualbox.org/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "Ubuntu_64",
-      "http_directory": "http",
-
-      "iso_checksum": "9a3231ec2896f60b735aae055b8b6c82695deea1505045e821735bfedfc902ea",
-      "iso_checksum_type": "sha256",
-      "iso_url": "http://cdimage.ubuntu.com/xubuntu/releases/14.04/release/xubuntu-14.04.3-desktop-amd64.iso",
-
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
-      "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "2048"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "2"
-        ]
-      ],
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-ubuntu-14.04.3-amd64"
-    }
-  ],
-  "post-processors": [
-        [{
-            "type": "vagrant",
-            "keep_input_artifact": false
-        },
-        {
-            "type": "atlas",
-            "only": ["virtualbox-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "vagrant.box",
-            "metadata": {
-                "provider": "virtualbox",
-                "version": "0.0.1"
-            }
-        }]
     ],
-
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "boot_command": [
+                "<esc><enter><esc><enter><wait>",
+                "/casper/vmlinuz.efi noprompt <wait>",
+                "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/xubuntu-14043-desktop-preseed.cfg <wait>",
+                "hostname={{ .Name }} <wait>",
+                "automatic-ubiquity <wait>",
+                "boot=casper initrd=/casper/initrd.lz -- <enter>"
+            ],
+            "headless": true,
+            "boot_wait": "10s",
+            "disk_size": 20480,
+            "guest_additions_mode": "upload",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+            "guest_additions_url": "http://download.virtualbox.org/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
+            "guest_os_type": "Ubuntu_64",
+            "http_directory": "http",
+            "iso_checksum": "9a3231ec2896f60b735aae055b8b6c82695deea1505045e821735bfedfc902ea",
+            "iso_checksum_type": "sha256",
+            "iso_url": "http://cdimage.ubuntu.com/xubuntu/releases/14.04/release/xubuntu-14.04.3-desktop-amd64.iso",
+            "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_username": "vagrant",
+            "ssh_wait_timeout": "10000s",
+            "virtualbox_version_file": ".vbox_version",
+            "vm_name": "packer-xubuntu-14.04.3-amd64",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "2048"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--cpus",
+                    "2"
+                ]
+            ]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "vagrant",
+                "keep_input_artifact": false
+            },
+            {
+                "type": "atlas",
+                "only": [
+                    "virtualbox-iso"
+                ],
+                "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+                "artifact_type": "vagrant.box",
+                "metadata": {
+                    "provider": "virtualbox",
+                    "version": "0.0.1"
+                }
+            }
+        ]
+    ]
 }
