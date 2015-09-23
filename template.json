@@ -29,12 +29,20 @@
         {
             "type": "virtualbox-iso",
             "boot_command": [
-                "<esc><enter><esc><enter><wait>",
-                "/casper/vmlinuz.efi noprompt <wait>",
-                "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/xubuntu-14043-desktop-preseed.cfg <wait>",
-                "hostname={{ .Name }} <wait>",
-                "automatic-ubiquity <wait>",
-                "boot=casper initrd=/casper/initrd.lz -- <enter>"
+                        "<esc><esc><esc><enter><wait>",
+                        "/casper/vmlinuz.efi ",
+                        "initrd=/casper/initrd.lz ",
+                        "boot=casper ",
+                        "auto=true ",
+                        "automatic-ubiquity ",
+                        "url=http://{{.HTTPIP}}:{{.HTTPPort}}/xubuntu-14043-desktop-preseed.cfg ",
+                        "language=en ",
+                        "country=GB ",
+                        "locale=en_GB.UTF-8 ",
+                        "hostname={{ .Name }} <wait>",
+                        "console-setup/ask_detect=false ",
+                        "keyboard-configuration/layoutcode=us ",
+                        "noprompt quiet splash --<enter>"
             ],
             "headless": true,
             "boot_wait": "10s",
@@ -85,7 +93,7 @@
                 "artifact_type": "vagrant.box",
                 "metadata": {
                     "provider": "virtualbox",
-                    "version": "0.0.1"
+                    "version": "0.0.2"
                 }
             }
         ]
