@@ -29,20 +29,24 @@
         {
             "type": "virtualbox-iso",
             "boot_command": [
-                        "<esc><esc><esc><enter><wait>",
-                        "/casper/vmlinuz.efi ",
-                        "initrd=/casper/initrd.lz ",
-                        "boot=casper ",
-                        "auto=true ",
-                        "automatic-ubiquity ",
-                        "url=http://{{.HTTPIP}}:{{.HTTPPort}}/xubuntu-14043-desktop-preseed.cfg ",
-                        "language=en ",
-                        "country=GB ",
-                        "locale=en_GB.UTF-8 ",
-                        "hostname={{ .Name }} <wait>",
-                        "console-setup/ask_detect=false ",
-                        "keyboard-configuration/layoutcode=us ",
-                        "noprompt quiet splash --<enter>"
+                              "<esc><wait><wait>",
+                              "/linux noapic <wait>",
+                              "auto locale=en_GB <wait>",
+                              "console-setup/ask_detect=false <wait>",
+                              "console-setup/layoutcode=gb <wait>",
+                              "console-setup/modelcode=pc105 <wait>",
+                              "debian-installer=en_GB <wait>",
+                              "debconf/frontend=noninteractive <wait>",
+                              "fb=false ",
+                              "hostname={{ .Name }} <wait>",
+                              "kbd-chooser/method=gb <wait>",
+                              "keyboard-configuration/layout=en_GB <wait>",
+                              "keyboard-configuration/modelcode=SKIP <wait>",
+                              "keyboard-configuration/variant=GB <wait>",
+                              "netcfg/get_domain={{ .Name }} <wait>",
+                              "netcfg/get_hostname={{ .Name }} <wait>",
+                              "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/xubuntu-14043-desktop-preseed.cfg <wait>",
+                              "initrd=/initrd.gz -- <enter><wait>"
             ],
             "headless": true,
             "boot_wait": "10s",
@@ -52,9 +56,9 @@
             "guest_additions_url": "http://download.virtualbox.org/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
             "guest_os_type": "Ubuntu_64",
             "http_directory": "http",
-            "iso_checksum": "9a3231ec2896f60b735aae055b8b6c82695deea1505045e821735bfedfc902ea",
-            "iso_checksum_type": "sha256",
-            "iso_url": "http://cdimage.ubuntu.com/xubuntu/releases/14.04/release/xubuntu-14.04.3-desktop-amd64.iso",
+            "iso_checksum": "7297321c2fa6424417a548c85edd6e98",
+            "iso_checksum_type": "md5",
+            "iso_url": "http://archive.ubuntu.com/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/mini.iso",
             "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
             "ssh_password": "vagrant",
             "ssh_port": 22,
@@ -93,7 +97,7 @@
                 "artifact_type": "vagrant.box",
                 "metadata": {
                     "provider": "virtualbox",
-                    "version": "0.0.2"
+                    "version": "0.0.1"
                 }
             }
         ]

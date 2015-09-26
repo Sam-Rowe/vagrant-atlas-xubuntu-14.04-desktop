@@ -46,6 +46,7 @@ apt-get -y install remmina
 apt-get -y install libreoffice
 apt-get -y install tree
 apt-get -y install geany
+apt-get -y install tmux
 
 apt-get -y autoremove
 apt-get -y autoclean
