@@ -71,7 +71,7 @@
                     "modifyvm",
                     "{{.Name}}",
                     "--memory",
-                    "1024"
+                    "2048"
                 ],
                 [
                     "modifyvm",
@@ -97,7 +97,7 @@
                 "artifact_type": "vagrant.box",
                 "metadata": {
                     "provider": "virtualbox",
-                    "version": "0.0.7"
+                    "version": "0.0.10"
                 }
             }
         ]
