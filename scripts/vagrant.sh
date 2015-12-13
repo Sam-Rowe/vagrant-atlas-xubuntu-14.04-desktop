@@ -1,13 +1,22 @@
 #!/bin/bash
 
-# Vagrant specific
+set -o errexit
+
+# Set up Vagrant.
+
 date > /etc/vagrant_box_build_time
 
-# Installing vagrant keys
-mkdir -pm 700 /home/vagrant/.ssh
-wget --no-check-certificate 'https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub' -O /home/vagrant/.ssh/authorized_keys
-chmod 0600 /home/vagrant/.ssh/authorized_keys
-chown -R vagrant /home/vagrant/.ssh
+# Create the user vagrant with password vagrant
+useradd -G sudo -p $(perl -e'print crypt("vagrant", "vagrant")') -m -s /bin/bash -N vagrant || true
 
-# Customize the message of the day
-echo 'Development Environment' > /etc/motd
+# Install vagrant keys
+mkdir -pm 700 /home/vagrant/.ssh || true
+curl -Lo /home/vagrant/.ssh/authorized_keys \
+  'https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub'
+chmod 0600 /home/vagrant/.ssh/authorized_keys
+chown -R vagrant:vagrant /home/vagrant/.ssh
+
+# Install NFS client
+apt-get -y install nfs-common
+
+

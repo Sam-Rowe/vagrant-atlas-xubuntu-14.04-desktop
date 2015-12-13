@@ -3,7 +3,7 @@
 # Setup the the box. This runs as root
 
 apt-get -y update
-apt-get --assume-yes upgrade
+apt-get -y upgrade
 
 # Bit of a tidy up first
 apt-get -y purge avahi-daemon #conflicts with 7digital Windows AD .local domain

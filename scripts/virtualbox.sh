@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# Bail if we are not running inside VirtualBox.
-if [[ `facter virtual` != "virtualbox" ]]; then
-    exit 0
-fi
+#set -o errexit #This always caused a failure. Not sure why?
 
-mkdir -p /mnt/virtualbox
-mount -o loop /home/vagrant/VBoxGuest*.iso /mnt/virtualbox
-sh /mnt/virtualbox/VBoxLinuxAdditions.run
+apt-get install -y build-essential linux-headers-`uname -r` dkms
+
+# Installing the virtualbox guest additions
+VBOX_VERSION=$(cat /home/vagrant/.vbox_version)
+cd /tmp
+umount /mnt || true
+mount -o loop /home/vagrant/VBoxGuestAdditions_$VBOX_VERSION.iso /mnt
+sh /mnt/VBoxLinuxAdditions.run
 ln -s /opt/VBoxGuestAdditions-*/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
-umount /mnt/virtualbox
-rm -rf /home/vagrant/VBoxGuest*.iso
+restart lightdm
+umount /mnt
+rm -rf /home/vagrant/VBoxGuestAdditions_*.iso

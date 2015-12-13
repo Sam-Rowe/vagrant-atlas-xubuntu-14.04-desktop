@@ -8,45 +8,45 @@
         "atlas_name": "{{env `ATLAS_NAME`}}"
     },
     "provisioners": [
-        {
-            "type": "shell",
+      {
+        "type": "file",
+        "source": "files/common.sh",
+        "destination": "/tmp/common.sh"
+      },
+      {
+        "type": "shell",
+        "execute_command": "echo 'vagrant'|sudo -S {{.Path}}",
+        "override": {
+          "virtualbox-iso": {
             "scripts": [
-                "scripts/base.sh",
-                "scripts/virtualbox.sh",
-                "scripts/vagrant.sh",
-                "scripts/dep.sh",
-                "scripts/cleanup.sh",
-                "scripts/zerodisk.sh"
-            ],
-            "override": {
-                "virtualbox-iso": {
-                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
-                }
-            }
+              "scripts/init.sh",
+              "scripts/bats.sh",
+              "scripts/base.sh",
+              "scripts/base_spec.sh",
+              "scripts/vagrant.sh",
+              "scripts/vagrant_spec.sh",
+              "scripts/virtualbox.sh",
+              "scripts/virtualbox_spec.sh",
+              "scripts/apt_packages.sh",
+              "scripts/cleanup.sh",
+              "scripts/cleanup_spec.sh",
+              "scripts/zerodisk.sh",
+              "scripts/zerodisk_spec.sh"
+            ]
+          }
         }
+      }
     ],
     "builders": [
         {
             "type": "virtualbox-iso",
             "boot_command": [
-                              "<esc><wait><wait>",
-                              "/linux noapic <wait>",
-                              "auto locale=en_GB.UTF-8 <wait>",
-                              "console-setup/ask_detect=false <wait>",
-                              "console-setup/layoutcode=gb <wait>",
-                              "console-setup/modelcode=pc105 <wait>",
-                              "debian-installer=en_GB <wait>",
-                              "debconf/frontend=noninteractive <wait>",
-                              "fb=false ",
-                              "hostname={{ .Name }} <wait>",
-                              "kbd-chooser/method=gb <wait>",
-                              "keyboard-configuration/layout=en_GB <wait>",
-                              "keyboard-configuration/modelcode=SKIP <wait>",
-                              "keyboard-configuration/variant=GB <wait>",
-                              "netcfg/get_domain={{ .Name }} <wait>",
-                              "netcfg/get_hostname={{ .Name }} <wait>",
-                              "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/xubuntu-14043-desktop-preseed.cfg <wait>",
-                              "initrd=/initrd.gz -- <enter><wait>"
+              "<esc><enter><esc><enter><wait>",
+              "/casper/vmlinuz.efi noprompt <wait>",
+              "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/xubuntu-14043-desktop-preseed.cfg <wait>",
+              "hostname={{ .Name }} <wait>",
+              "automatic-ubiquity <wait>",
+      		    "boot=casper initrd=/casper/initrd.lz -- <enter>"
             ],
             "headless": true,
             "boot_wait": "10s",
@@ -56,9 +56,9 @@
             "guest_additions_url": "http://download.virtualbox.org/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
             "guest_os_type": "Ubuntu_64",
             "http_directory": "http",
-            "iso_checksum": "7297321c2fa6424417a548c85edd6e98",
-            "iso_checksum_type": "md5",
-            "iso_url": "http://archive.ubuntu.com/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/mini.iso",
+            "iso_checksum": "97623fd359d5581ed8e4c250c53154be6d5bf8a4",
+            "iso_checksum_type": "sha1",
+            "iso_url": "http://cdimage.ubuntu.com/xubuntu/releases/14.04.3/release/xubuntu-14.04.3-desktop-amd64.iso",
             "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
             "ssh_password": "vagrant",
             "ssh_port": 22,
@@ -97,7 +97,7 @@
                 "artifact_type": "vagrant.box",
                 "metadata": {
                     "provider": "virtualbox",
-                    "version": "0.0.10"
+                    "version": "0.0.11"
                 }
             }
         ]
