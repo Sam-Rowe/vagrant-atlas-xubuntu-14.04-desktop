@@ -15,24 +15,24 @@
       },
       {
         "type": "shell",
-        "execute_command": "echo 'vagrant'|sudo -S {{.Path}}",
+        "scripts": [
+          "scripts/init.sh",
+          "scripts/bats.sh",
+          "scripts/base.sh",
+          "scripts/base_spec.sh",
+          "scripts/vagrant.sh",
+          "scripts/vagrant_spec.sh",
+          "scripts/virtualbox.sh",
+          "scripts/virtualbox_spec.sh",
+          "scripts/apt_packages.sh",
+          "scripts/cleanup.sh",
+          "scripts/cleanup_spec.sh",
+          "scripts/zerodisk.sh",
+          "scripts/zerodisk_spec.sh"
+        ],
         "override": {
           "virtualbox-iso": {
-            "scripts": [
-              "scripts/init.sh",
-              "scripts/bats.sh",
-              "scripts/base.sh",
-              "scripts/base_spec.sh",
-              "scripts/vagrant.sh",
-              "scripts/vagrant_spec.sh",
-              "scripts/virtualbox.sh",
-              "scripts/virtualbox_spec.sh",
-              "scripts/apt_packages.sh",
-              "scripts/cleanup.sh",
-              "scripts/cleanup_spec.sh",
-              "scripts/zerodisk.sh",
-              "scripts/zerodisk_spec.sh"
-            ]
+            "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
           }
         }
       }
