@@ -41,12 +41,18 @@
         {
             "type": "virtualbox-iso",
             "boot_command": [
-              "<esc><enter><esc><enter><wait>",
-              "/casper/vmlinuz.efi noprompt <wait>",
-              "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/xubuntu-14043-desktop-preseed.cfg <wait>",
-              "hostname={{ .Name }} <wait>",
-              "automatic-ubiquity <wait>",
-      		    "boot=casper initrd=/casper/initrd.lz -- <enter>"
+                              "<esc><wait><wait>",
+                              "/linux noapic <wait>",
+                              "auto=true <wait>",
+                              "language=en country=GB locale=en_GB.UTF-8 ",
+                              "console-setup/ask_detect=false ",
+                              "debconf/frontend=noninteractive ",
+                              "fb=false ",
+                              "hostname={{ .Name }} ",
+                              "netcfg/get_domain={{ .Name }} ",
+                              "netcfg/get_hostname={{ .Name }} ",
+                              "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/xubuntu-14043-desktop-preseed.cfg ",
+                              "initrd=/initrd.gz -- <enter><wait>"
             ],
             "headless": true,
             "boot_wait": "10s",
@@ -56,9 +62,9 @@
             "guest_additions_url": "http://download.virtualbox.org/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
             "guest_os_type": "Ubuntu_64",
             "http_directory": "http",
-            "iso_checksum": "97623fd359d5581ed8e4c250c53154be6d5bf8a4",
-            "iso_checksum_type": "sha1",
-            "iso_url": "http://cdimage.ubuntu.com/xubuntu/releases/14.04.3/release/xubuntu-14.04.3-desktop-amd64.iso",
+            "iso_checksum": "7297321c2fa6424417a548c85edd6e98",
+            "iso_checksum_type": "md5",
+            "iso_url": "http://archive.ubuntu.com/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/mini.iso",
             "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
             "ssh_password": "vagrant",
             "ssh_port": 22,
@@ -97,7 +103,7 @@
                 "artifact_type": "vagrant.box",
                 "metadata": {
                     "provider": "virtualbox",
-                    "version": "0.0.11"
+                    "version": "0.0.99"
                 }
             }
         ]
