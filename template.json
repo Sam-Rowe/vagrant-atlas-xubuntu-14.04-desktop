@@ -19,16 +19,16 @@
           "scripts/init.sh",
           "scripts/bats.sh",
           "scripts/base.sh",
-          "scripts/base_spec.sh",
+
           "scripts/vagrant.sh",
-          "scripts/vagrant_spec.sh",
+
           "scripts/virtualbox.sh",
-          "scripts/virtualbox_spec.sh",
+
           "scripts/apt_packages.sh",
           "scripts/cleanup.sh",
-          "scripts/cleanup_spec.sh",
-          "scripts/zerodisk.sh",
-          "scripts/zerodisk_spec.sh"
+
+          "scripts/zerodisk.sh"
+
         ],
         "override": {
           "virtualbox-iso": {
@@ -61,6 +61,7 @@
             "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
             "guest_additions_url": "http://download.virtualbox.org/virtualbox/{{.Version}}/VBoxGuestAdditions_{{.Version}}.iso",
             "guest_os_type": "Ubuntu_64",
+            "hard_drive_interface": "sata",
             "http_directory": "http",
             "iso_checksum": "7297321c2fa6424417a548c85edd6e98",
             "iso_checksum_type": "md5",
@@ -77,7 +78,7 @@
                     "modifyvm",
                     "{{.Name}}",
                     "--memory",
-                    "2048"
+                    "1024"
                 ],
                 [
                     "modifyvm",
@@ -103,7 +104,7 @@
                 "artifact_type": "vagrant.box",
                 "metadata": {
                     "provider": "virtualbox",
-                    "version": "0.0.99"
+                    "version": "0.99.1"
                 }
             }
         ]
